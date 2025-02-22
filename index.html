@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>謎解きご褒美</title>
+    <style>
+        /* 全体のスタイル */
+        body {
+            background-color: black;
+            color: white;
+            font-family: "ヒラギノ角ゴ ProN W1", "Hiragino Kaku Gothic ProN", "游ゴシック Light", "Yu Gothic Light", "Noto Sans JP", "Meiryo", sans-serif;
+            font-weight: 200;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            z-index: 1; /* 背景より前面に配置 */
+        }
+
+        /* 背景の横線（2pxの線と8pxのスペースを交互に） */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: repeating-linear-gradient(0deg, #ffffff, #ffffff 0.5px, #000000 2px, #000000 10px);
+            z-index: -2;
+        }
+
+        /* 台形の黒い部分（スマホ & PC共通） */
+        .spotlight {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: 100%; /* 下端が画面下にしっかりつくように変更 */
+            background: black;
+            clip-path: polygon(37.5% 0%, 62.5% 0%, 100% 100%, 0% 100%);
+            z-index: -1; /* 文字より後ろに配置 */
+        }
+
+        /* PC版の台形を前の比率に戻す */
+        @media (min-width: 768px) {
+            .spotlight {
+                clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+                height: 100%; /* 画面の高さを100%に設定 */
+            }
+        }
+
+        /* ボタンと文字のスタイル復元 */
+       
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: white;
+            margin-top: 5vh;
+            font-weight: 200; /* 細くする */
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 5px rgba( 0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: white;
+            user-select: none;
+            font-weight: 200; 
+            margin-top: 40px; 
+            position: relative;
+            z-index: 1;
+            margin-bottom: 5px;
+        }
+
+        h3 {
+            font-size: clamp(0.7rem, 2.4vw, 1.1rem);
+            color: #222222;
+            font-weight: 200;
+            margin-top: -40px;
+            position: relative;
+            z-index: 1;
+        }
+
+.notice {
+    font-size: 0.9rem;
+    color: white;
+    opacity: 0.8;
+    margin-bottom: 15px; 
+    margin-top: -10px; 
+    position: relative;
+    z-index: 1;
+    display: block;
+    text-align: center; 
+}
+
+@media (max-width: 768px) {
+            h1 {
+            margin-top: 2vh;
+        }
+    h3 {
+        margin-top: -20px; 
+    }
+.notice {
+    margin-top: 10px; 
+}
+
+}
+
+
+
+        button {
+            width: 90%;
+            max-width: 300px;
+            height: 60px;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            background: linear-gradient(45deg, transparent 5%, #000000 5%);
+            color: white;
+            border: 2px solid white;
+            border-radius: 5px;
+            box-shadow: 4px 0px 0px #0000ff;
+            outline: none;
+            position: relative;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0;
+            overflow: hidden;
+            cursor: pointer;
+            animation: glitch 2s infinite steps(2, end);
+            z-index: 1;
+        }
+
+        /* ボタンのグリッチテキストを少し右下にずらす */
+        button::after {
+            content: "ポストする";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: 3px; /* 少し下に */
+            left: 3px; /* 少し右に */
+            background: linear-gradient(45deg, transparent 3%, #ff0000 3%, #00ff00 5%, #000000 5%);
+            text-shadow: -1px -1px 0px #00ff00, 1px 1px 0px #ff0000;
+            clip-path: inset(0% 0% 0% 0%);
+            animation: glitch 2s infinite steps(2, end);
+        }
+
+        /* グリッチの揺れを控えめに */
+        @keyframes glitch {
+            0% {
+                clip-path: var(--slice-1);
+                transform: translate(-2px, -2px);
+            }
+            20% {
+                clip-path: var(--slice-3);
+                transform: translate(2px, 2px);
+            }
+            40% {
+                clip-path: var(--slice-1);
+                transform: translate(-1px, 1px);
+            }
+            60% {
+                clip-path: var(--slice-2);
+                transform: translate(1px, -1px);
+            }
+            80% {
+                clip-path: var(--slice-5);
+                transform: translate(-1px, 1px);
+            }
+            100% {
+                clip-path: var(--slice-1);
+                transform: translate(0);
+            }
+        }
+        .glow {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 60px;
+            background-image: repeating-linear-gradient(90deg, #ffffff, #ffffff 0.5px, #000000 8px);
+            border-radius: 50%;
+            filter: blur(1px);
+            z-index: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="background"></div>  <!-- 背景の横線 -->
+    <div class="spotlight"></div>  <!-- 中央の台形 -->
+
+    <h1 class="flash">おめでとうございます。<br>貴方は隠された謎を見事解き明かしました。</h1>
+    <h3>でも目ざといお前なら、きっと解かずにここに来たでしょ？　俺の知ってる、お前なら</h3>
+    <p class="notice">このリンクや解法を拡散することはお控えください。</p>
+    <h2>ここをタップするとXにポストができます。</h2>
+    <button id="tweetButton">ポストする</button>
+
+    <script>
+        document.getElementById('tweetButton').onclick = function() {
+            const tweetText = encodeURIComponent("MV【ファイル・アタッチメント】https://www.nicovideo.jp/watch/sm44668957 に隠された謎を見事発見し(もしくは運良く)解き明かしました！");
+            const twitterUrl = https://twitter.com/intent/tweet?text=${tweetText};
+            window.open(twitterUrl, '_blank');
+        };
+
+        console.log("%c ここには何もありませんよ、知りたがりさん", "color: red; font-size: 16px; font-weight: bold;");
+    </script>
+</body>
+</html>
