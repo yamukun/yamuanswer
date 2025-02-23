@@ -207,14 +207,18 @@
     <h2>ここをタップするとXにポストができます。</h2>
     <button id="tweetButton">ポストする</button>
 
-    <script>
-        document.getElementById('tweetButton').onclick = function() {
-            const tweetText = encodeURIComponent("MV【ファイル・アタッチメント】https://www.nicovideo.jp/watch/sm44668957 に隠された謎を見事発見し(もしくは運良く)解き明かしました！");
-            const twitterUrl = https://twitter.com/intent/tweet?text=${tweetText};
-            window.open(twitterUrl, '_blank');
-        };
+<script>
+    document.getElementById('tweetButton').onclick = function() {
 
-        console.log("%c ここには何もありませんよ、知りたがりさん", "color: red; font-size: 16px; font-weight: bold;");
-    </script>
+        const tweetText = encodeURIComponent("MV【ファイル・アタッチメント】に隠された謎を見事発見し解き明かしました！\n\n🔗 https://www.nicovideo.jp/watch/sm44668957");
+        
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
+
+        window.open(twitterUrl, '_blank');
+    };
+
+    console.log("%c ここには何もありませんよ、知りたがりさん", "color: red; font-size: 16px; font-weight: bold;");
+</script>
+
 </body>
 </html>
